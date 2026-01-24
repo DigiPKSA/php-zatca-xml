@@ -14,19 +14,11 @@ Please feel free to <a href="https://github.com/sevaske/php-zatca-xml/pulls?q=so
 <a href="https://github.com/sevaske/php-zatca-xml/issues">Report a bug</a>
 </p>
 
-# FORK!
+### FORK!
 
 **Note:** The original author of the repository [Saleh7/php-zatca-xml](https://github.com/Saleh7/php-zatca-xml) has been inactive and unresponsive for several months.
 
 This repository is a community-maintained fork with fixes and updates to keep the library functional and improved.
-
-All changes and bug fixes are collected here to support users and continue development.
-
-**Namespaces:**  
-The original namespace `Saleh7\Zatca` has not been changed to maintain compatibility.
-
-**Future Merge:**  
-If the original author returns and resumes activity, we are open to merging all changes and improvements back into the original repository.
 
 **API Integration:**  
 API-related functionality has been refactored and moved to a separate library for better modularity and maintainability:  
@@ -47,8 +39,6 @@ This is an unofficial PHP library for generating ZATCA Fatoora e-invoices (simpl
 - 🔐 **Digital Signing** – Sign invoices securely to ensure compliance  
 - 🏷 **QR Code Generation** – Automatically generate QR codes for invoices  
 - 📡 **Direct Submission to ZATCA** – Send invoices directly to ZATCA’s servers  
-- ⚡ **Lightweight & Fast** – Optimized for performance and easy integration in PHP projects  
-- 🔄 **Customizable & Extensible** – Easily adapt the library to your needs  
 
 
 ## 📌 Requirements  
@@ -96,7 +86,6 @@ try {
         ->setInvoiceType(1100)// # Four digits, each digit acting as a bool. The order is as follows: Standard Invoice, Simplified, future use, future use 
         ->setProduction(false)// true = Production |  false = Testing
         ->setBusinessCategory('Technology') // Your business category like food, real estate, etc
-        
         ->generateAndSave('output/certificate.csr', 'output/private.pem');
         
     echo "Certificate and private key saved.\n";
@@ -360,4 +349,4 @@ Please make sure to update tests as appropriate.
 
 ## License
 
-This project is licensed under the [MIT License](https://github.com/Saleh7/php-zatca-xml/blob/main/LICENSE).
+This project is licensed under the [MIT License](LICENSE).
