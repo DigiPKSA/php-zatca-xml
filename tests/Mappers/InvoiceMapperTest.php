@@ -125,6 +125,7 @@ class InvoiceMapperTest extends TestCase
                         'taxableAmount' => 4,
                         'taxAmount' => 0.6,
                         'taxCategory' => [
+                            'id' => 'S',
                             'percent' => 15,
                             'taxScheme' => [
                                 'id' => 'VAT',

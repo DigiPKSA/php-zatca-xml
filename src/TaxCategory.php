@@ -54,19 +54,19 @@ class TaxCategory implements XmlSerializable
      */
     public function getId(): ?string
     {
+        // Explicit ID always has priority (E, O, custom handling)
         if (! empty($this->id)) {
             return $this->id;
         }
 
+        // Auto-derive only for ZATCA-supported cases
         if ($this->getPercent() !== null) {
-            if ($this->getPercent() >= 15) {
+            // Any positive VAT rate in KSA is Standard rated
+            if ($this->getPercent() > 0) {
                 return 'S';
             }
 
-            if ($this->getPercent() >= 6) {
-                return 'AA';
-            }
-
+            // Zero percent without explicit exemption = Zero rated
             return 'Z';
         }
 
