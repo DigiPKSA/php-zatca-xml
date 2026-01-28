@@ -272,11 +272,17 @@ class InvoiceMapper
             // Check if taxCategories is an array and iterate over it.
             if (isset($allowanceCharge['taxCategories']) && is_array($allowanceCharge['taxCategories'])) {
                 foreach ($allowanceCharge['taxCategories'] as $taxCatData) {
-                    $taxCategories[] = (new TaxCategory)
+                    $taxCategory = (new TaxCategory)
                         ->setPercent($taxCatData['percent'] ?? 15)
                         ->setTaxScheme(
                             (new TaxScheme)->setId($taxCatData['taxScheme']['id'] ?? 'VAT')
                         );
+
+                    if (isset($taxCatData['id'])) {
+                        $taxCategory->setId($taxCatData['id']);
+                    }
+
+                    $taxCategories[] = $taxCategory;
                 }
             }
 
@@ -328,6 +334,7 @@ class InvoiceMapper
 
                 // Build the TaxCategory object using the extracted data.
                 $taxCategory = (new TaxCategory)
+                    ->setId($taxCategoryData['id'] ?? null)
                     ->setPercent($percent)
                     ->setTaxExemptionReasonCode($reasonCode)
                     ->setTaxExemptionReason($reason)
