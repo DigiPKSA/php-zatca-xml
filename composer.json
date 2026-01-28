@@ -51,7 +51,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Saleh7\\Zatca\\": ["src"],
+            "Saleh7\\Zatca\\": ["src"]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "Saleh7\\Zatca\\Tests\\": ["tests"]
         }
     },
