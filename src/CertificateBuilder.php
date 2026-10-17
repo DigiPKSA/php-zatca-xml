@@ -19,6 +19,8 @@ class CertificateBuilder
 
     private const OID_TEST = 'PREZATCA-Code-Signing';
 
+    private const MAX_NAME_LENGTH = 64;
+
     private const CONFIG_TEMPLATE = <<<'EOL'
 [req]
 prompt = no
@@ -107,7 +109,7 @@ EOL;
      */
     public function setCommonName(string $name): self
     {
-        $this->commonName = $this->sanitize($name);
+        $this->commonName = $this->sanitizeName($name);
 
         return $this;
     }
@@ -130,7 +132,7 @@ EOL;
      */
     public function setOrganizationName(string $name): self
     {
-        $this->organizationName = $this->sanitize($name);
+        $this->organizationName = $this->sanitizeName($name);
 
         return $this;
     }
@@ -140,7 +142,7 @@ EOL;
      */
     public function setOrganizationalUnitName(string $name): self
     {
-        $this->organizationalUnitName = $this->sanitize($name);
+        $this->organizationalUnitName = $this->sanitizeName($name);
 
         return $this;
     }
@@ -378,19 +380,33 @@ EOL;
     }
 
     /**
-     * Sanitize input.
-     *
      * @throws CertificateBuilderException
      */
     private function sanitize(string $input): string
     {
-        $trimmed = trim($input);
-        $sanitized = preg_replace('/[^a-zA-Z0-9\s\-_]/', '', $trimmed);
+        $sanitized = preg_replace('/[^a-zA-Z0-9\s\-_]/', '', $input);
         if ($sanitized === null) {
             throw new CertificateBuilderException("Sanitization failed for: $input");
         }
 
-        return $sanitized;
+        return $this->collapseWhitespace($sanitized);
+    }
+
+    /**
+     * @throws CertificateBuilderException
+     */
+    private function sanitizeName(string $input): string
+    {
+        $sanitized = preg_replace('/[^\p{L}\p{M}\p{N}\s\-_]/u', '', $input);
+        if ($sanitized === null) {
+            throw new CertificateBuilderException("Sanitization failed for: $input");
+        }
+
+        return rtrim(mb_substr($this->collapseWhitespace($sanitized), 0, self::MAX_NAME_LENGTH));
+    }
+
+    private function collapseWhitespace(string $value): string {
+        return trim(preg_replace('/\s+/u', ' ', $value) ?? $value);
     }
 
     /**
